@@ -98,7 +98,7 @@ export default function Form() {
         alert("Details Updated");
     }
   return (
-    <div>
+    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
         <h2>Please Enter Details</h2>
       <TextField 
         required 
@@ -164,7 +164,7 @@ export default function Form() {
        
       <h3>Accept all terms and conditions <Checkbox {...label} onChange={handleCheckBox}/> </h3>
 
-      <Button variant="outlined" type='submit' onClick={handleSubmit} sx={{color:"#004236"}}>Submit</Button>
+      <Button variant="outlined" type='submit' onClick={handleSubmit} sx={{backgroundColor: '#004236', color: 'white'}}>Submit</Button>
 
       <hr></hr>
       <h3>User Details</h3>
