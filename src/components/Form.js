@@ -19,36 +19,60 @@ export default function Form() {
     const [gender, setGender] = useState(" ");
     const [check, setCheck] = useState("false");
 
+    const [errorFirst, setErrorFirst] = useState();
+    const [errorLast, setErrorLast] = useState();
+    const [errorMobile, setErrorMobile] = useState();
+    const [errorEmail, setErrorEmail] = useState();
+
     function handleFirstName(e){
         let value = e.target.value;
         let regex = /^[a-zA-Z]+$/;
-        // if(value.match(regex))
-        if(regex.test(value))
+        
+        if(regex.test(value)){// if(value.match(regex))
             setFirstName(value);
-        else alert("Enter Correct FirstName");
+            setErrorFirst();
+        }  
+        else {
+            // alert("Enter Correct FirstName");
+            setErrorFirst("Incorrect");
+        }
     }
     function handleLastName(e){
         let value = e.target.value;
         let regex = /^[a-zA-Z]+$/;
-        if(regex.test(value))
+        if(regex.test(value)){
             setlastName(value);
-        else alert("Enter Correct LastName");
+            setErrorLast();
+        }
+        else{
+            // alert("Enter Correct LastName");
+            setErrorLast("Incorrect");
+        } 
     }
     function handleMobileNumber(e){
         let value = e.target.value;
         let regex = /^[0-9]+$/;
-        if(regex.test(value))
+        if(regex.test(value)){
             setMobile(value);
-        else alert("Enter Correct Mobile Number");
+            setErrorMobile();
+        }
+        else{
+            // alert("Enter Correct Mobile Number");
+            setErrorMobile("Incorrect");
+        } 
     }
     function handleEmail(e){
         let value = e.target.value;
         // let regex = /^[a-zA-Z0-9]+@[a-zA-Z0-9]+\.[A-Za-z]+$/;
-        // let regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
+        let regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/
 
-        // if(regex.test(value))
+        if(regex.test(value)){
             setEmail(value);
-        // else alert("Enter Correct Email");
+            setErrorEmail();
+        }
+        else{
+            setErrorEmail("Incorrect");
+        } 
     }
     function handleGender(e){
         setGender(e.target.value);
@@ -61,28 +85,67 @@ export default function Form() {
     }
     function handleSubmit(){
         console.log("finish");
-        // handleEmail();
 
-        if(firstName==" "||lastName==" "||mobile==" "||gender==" "||check=="false")//||email==" "
-        {   alert("Fill all the details"); 
-            return
-        }
-        if(!(/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(email))){
-            alert("Enter Correct Email");
+        if(firstName==" "||lastName==" "||mobile==" "||gender==" "||check=="false"){//||email==" "
+            alert("Fill all the details"); 
             return;
-        } 
+        }
+        // if(!(/^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/.test(email))){
+        //     alert("Enter Correct Email");
+        //     return;
+        // } 
             
         alert("Details Updated");
     }
   return (
     <div>
         <h2>Please Enter Details</h2>
-      <TextField required type='text' id="firstName" label="FIrst Name" variant="outlined" onChange={handleFirstName}/>
-      <TextField required type='text' id="lastName" label="Last Name" variant="outlined" onChange={handleLastName}  />
+      <TextField 
+        required 
+        type='text' 
+        id="firstName" 
+        label="FIrst Name" 
+        variant="outlined" 
+        onChange={handleFirstName} 
+        helperText={errorFirst} 
+        error={errorFirst == "Incorrect"} 
+        sx={{m: "20px"}}
+      />
+      <TextField 
+        required 
+        type='text' 
+        id="lastName" 
+        label="Last Name" 
+        variant="outlined" 
+        onChange={handleLastName} 
+        helperText={errorLast} 
+        error={errorLast == "Incorrect"} 
+        sx={{m: "20px"}} 
+      />
       <br></br>
       <br></br>
-      <TextField required type='text' id="mobileNumber" label="Mobile Number" variant="outlined" onChange={handleMobileNumber}/>
-      <TextField required type='email' id="email" label="Email" variant="outlined" onChange={handleEmail}/>
+      <TextField 
+        required 
+        type='text' 
+        id="mobileNumber" 
+        label="Mobile Number" 
+        variant="outlined" 
+        onChange={handleMobileNumber} 
+        helperText={errorMobile} 
+        error={errorMobile == "Incorrect"} 
+        sx={{m: "20px"}}
+      />
+      <TextField 
+        required 
+        type='email' 
+        id="email" 
+        label="Email" 
+        variant="outlined" 
+        onChange={handleEmail} 
+        helperText={errorEmail} 
+        error={errorEmail == "Incorrect"} 
+        sx={{m: "20px"}}
+      />
       <br></br>
       
       <h3>Gender</h3>
@@ -115,7 +178,3 @@ export default function Form() {
     </div>
   )
 }
-
-
-
-{/* <FormGroup>{ <FormControlLabel label="Accept all terms and conditions"></FormControlLabel>      }</FormGroup> */}
