@@ -16,16 +16,6 @@ import CustomRadioButton from './CustomRadioButton';
 export default function Form() {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
-   /* const [formData, setFormData] = useState({
-      firstName: '',
-      lastName: '',
-      mobile: '',
-      email: '',
-      gender: '',
-      check: false,
-    });
-
-    const [errors, setErrors] = useState({});*/
 
     const [firstName, setFirstName] = useState(" ");
     const [lastName, setlastName] = useState(" ");
@@ -123,12 +113,16 @@ export default function Form() {
         label="FIrst Name" 
         onChange={handleFirstName} 
         helperText={errorFirst} 
+        name="firstName"
+        //value={firstName}
         error={errorFirst == "Incorrect"}
       />
       <CustomTextField 
         type='text' 
         id="lastName" 
         label="Last Name" 
+        name="lastName"
+        // value={lastName}
         onChange={handleLastName} 
         helperText={errorLast} 
         error={errorLast == "Incorrect"} 
@@ -137,6 +131,8 @@ export default function Form() {
         type='text' 
         id="mobileNumber" 
         label="Mobile Number" 
+        name="mobile"
+        // value={mobile}
         onChange={handleMobileNumber} 
         helperText={errorMobile} 
         error={errorMobile == "Incorrect"}
@@ -145,6 +141,8 @@ export default function Form() {
         type='email' 
         id="email" 
         label="Email" 
+        name="email"
+        // value={email}
         onChange={handleEmail} 
         helperText={errorEmail} 
         error={errorEmail == "Incorrect"} 
@@ -156,6 +154,7 @@ export default function Form() {
         // aria-labelledby="demo-radio-buttons-group-label"
         // defaultValue="female"
         name="gender"
+        // value={gender}
         onChange={handleGender}
       >
         <FormControlLabel value="female" control={<CustomRadioButton />} label="Female" />
@@ -165,7 +164,7 @@ export default function Form() {
  
         
        
-      <h3>Accept all terms and conditions <CustomCheckBox onChange={handleCheckBox}/> </h3>
+      <h3>Accept all terms and conditions <CustomCheckBox name="check" onChange={handleCheckBox}/> </h3>
 
       <CustomButton type='submit' onClick={handleSubmit} >Submit</CustomButton>
 
