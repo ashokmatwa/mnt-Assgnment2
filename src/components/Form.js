@@ -1,17 +1,32 @@
 import React, { useState } from 'react'
 import TextField from '@mui/material/TextField';
-import isEmail from 'validator/lib/isEmail';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
 import FormControlLabel from '@mui/material/FormControlLabel';
 import Checkbox from '@mui/material/Checkbox';
 import Button from '@mui/material/Button';
 import { FormGroup } from '@mui/material';
+import CustomTextField from './CustomTextField';
+import CustomButton from './CustomButton';
+import CustomCheckBox from './CustomCheckBox';
+import CustomRadioButton from './CustomRadioButton';
 
 
 
 export default function Form() {
     const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
+
+   /* const [formData, setFormData] = useState({
+      firstName: '',
+      lastName: '',
+      mobile: '',
+      email: '',
+      gender: '',
+      check: false,
+    });
+
+    const [errors, setErrors] = useState({});*/
+
     const [firstName, setFirstName] = useState(" ");
     const [lastName, setlastName] = useState(" ");
     const [mobile, setMobile] = useState(" ");
@@ -22,7 +37,7 @@ export default function Form() {
     const [errorFirst, setErrorFirst] = useState();
     const [errorLast, setErrorLast] = useState();
     const [errorMobile, setErrorMobile] = useState();
-    const [errorEmail, setErrorEmail] = useState();
+    const [errorEmail, setErrorEmail] = useState(); 
 
     function handleFirstName(e){
         let value = e.target.value;
@@ -34,6 +49,7 @@ export default function Form() {
         }  
         else {
             // alert("Enter Correct FirstName");
+            setFirstName(" ");
             setErrorFirst("Incorrect");
         }
     }
@@ -85,6 +101,7 @@ export default function Form() {
     }
     function handleSubmit(){
         console.log("finish");
+        console.log(email);
 
         if(firstName==" "||lastName==" "||mobile==" "||gender==" "||check=="false"){//||email==" "
             alert("Fill all the details"); 
@@ -100,51 +117,37 @@ export default function Form() {
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
         <h2>Please Enter Details</h2>
-      <TextField 
-        required 
+      <CustomTextField
         type='text' 
         id="firstName" 
         label="FIrst Name" 
-        variant="outlined" 
         onChange={handleFirstName} 
         helperText={errorFirst} 
-        error={errorFirst == "Incorrect"} 
-        sx={{m: "20px"}}
+        error={errorFirst == "Incorrect"}
       />
-      <TextField 
-        required 
+      <CustomTextField 
         type='text' 
         id="lastName" 
         label="Last Name" 
-        variant="outlined" 
         onChange={handleLastName} 
         helperText={errorLast} 
         error={errorLast == "Incorrect"} 
-        sx={{m: "20px"}} 
       />
-      <br></br>
-      <br></br>
-      <TextField 
-        required 
+      <CustomTextField 
         type='text' 
         id="mobileNumber" 
         label="Mobile Number" 
-        variant="outlined" 
         onChange={handleMobileNumber} 
         helperText={errorMobile} 
-        error={errorMobile == "Incorrect"} 
-        sx={{m: "20px"}}
+        error={errorMobile == "Incorrect"}
       />
-      <TextField 
-        required 
+      <CustomTextField  
         type='email' 
         id="email" 
         label="Email" 
-        variant="outlined" 
         onChange={handleEmail} 
         helperText={errorEmail} 
         error={errorEmail == "Incorrect"} 
-        sx={{m: "20px"}}
       />
       <br></br>
       
@@ -155,16 +158,16 @@ export default function Form() {
         name="gender"
         onChange={handleGender}
       >
-        <FormControlLabel value="female" control={<Radio />} label="Female" />
-        <FormControlLabel value="male" control={<Radio />} label="Male" />
-        <FormControlLabel value="other" control={<Radio />} label="Other" />
+        <FormControlLabel value="female" control={<CustomRadioButton />} label="Female" />
+        <FormControlLabel value="male" control={<CustomRadioButton />} label="Male" />
+        <FormControlLabel value="other" control={<CustomRadioButton />} label="Other" />
       </RadioGroup>
  
         
        
-      <h3>Accept all terms and conditions <Checkbox {...label} onChange={handleCheckBox}/> </h3>
+      <h3>Accept all terms and conditions <CustomCheckBox onChange={handleCheckBox}/> </h3>
 
-      <Button variant="outlined" type='submit' onClick={handleSubmit} sx={{backgroundColor: '#004236', color: 'white'}}>Submit</Button>
+      <CustomButton type='submit' onClick={handleSubmit} >Submit</CustomButton>
 
       <hr></hr>
       <h3>User Details</h3>
