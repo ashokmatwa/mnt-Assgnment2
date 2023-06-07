@@ -6,11 +6,10 @@ import CustomTextField from './CustomTextField';
 import CustomButton from './CustomButton';
 import CustomCheckBox from './CustomCheckBox';
 import CustomRadioButton from './CustomRadioButton';
-
+import { Checkbox } from '@mui/material';
 
 
 export default function Form2() {
-    const label = { inputProps: { 'aria-label': 'Checkbox demo' } };
 
     const [formData, setFormData] = useState({
       firstName: '',
@@ -22,166 +21,101 @@ export default function Form2() {
     });
 
     const [errors, setErrors] = useState({
-        errorFirst: '',
-        errorLast: '',
-        errorMobile: '',
-        errorEmail: ''
+        firstName: '',
+        lastName: '',
+        mobile: '',
+        email: ''
     });
-
-    console.log(errors);
-    /*const handleChange2=(e)=>{
-      let value=e.target.value;
-      let name=e.target.name;
-      
-      let error="";
-      if(name==="firstName" || name==="lastName")
-      {
-        if(!/^[a-zA-Z]+$/.test(value))
-        error="Invalid"
-      }
-
-      setErrors((prevState)=>({
-        ...prevState,
-        [e.target.name]:error
-      }))
-    }*/
+    // console.log(errors);
+    
     function handleChange(e) {
         const { name, value, type, checked } = e.target;
         const newValue = type === 'checkbox' ? checked : value;
-        let errorVariable="";
-
-        console.log(name + value + type + checked);
+        let errorVariable=""; //console.log(name + value + type + checked);
         
-
-        if(name=="firstName" || name=="lastName"){
+        if(name==="firstName" || name==="lastName"){
             let regex = /^[a-zA-Z]+$/;
             if(!regex.test(newValue)){
-                errorVariable = "Incorrect";
-
+                errorVariable = "Only Characters Allowed";
             }
-            // console.log("firstnmae");
         }
-        if(name == "mobile"){
+        if(name === "mobile"){
             let regex = /^[0-9]+$/;
             if(!regex.test(newValue)){
-                errorVariable="Incorrect";
+                errorVariable="Only Numbers Allowed";
             }
         }
-        if(name == "email"){
+        if(name === "email"){
             let regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
             if(!regex.test(value)){
-                errorVariable="Incorrect";
+                errorVariable="format abc@gmail.com";
             }
         }
-        // if(name == "check"){
-        //     if(check)
-        // }
 
-        setFormData((prevFormData) => ({
-            ...prevFormData,
-            [name]: value,
-          }));
+        setFormData( {
+          ...formData,
+          [name]: value,
+        });
 
-          setErrors((prevErrors) => ({
-            ...prevErrors,
-            [name]: errorVariable
-          }));
-
+        setErrors({
+          ...errors,
+          [name]: errorVariable
+        });
       }
     
-      function handleSubmit(e) {
-        e.preventDefault();
+      function handleSubmit() {
     
-        const { firstName, lastName, mobile, gender, check } = formData;
+        const { firstName, lastName, mobile, email, gender, check } = formData;
     
-        if (!firstName || !lastName || !mobile || !gender || !check) {
+        if (!firstName || !lastName || !mobile || !gender || !check || !email) {
           setErrors({
-            errorFirst: !firstName ? 'Required' : '',
-            errorLast: !lastName ? 'Required' : '',
-            errorMobile: !mobile ? 'Required' : '',
-            // errorEmail: !email ? 'Required' : '',
+            firstName: !firstName ? 'Required' : '',
+            lastName: !lastName ? 'Required' : '',
+            mobile: !mobile ? 'Required' : '',
+            email: !email ? 'Required' : '',
           });
           alert('Fill all the details');
           return;
         }
-
         alert('Details Updated');
       }
-
 
   return (
     <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
         <h2>FORM2 : Please Enter Details</h2>
       <CustomTextField
-        type='text' 
-        id="firstName" 
-        label="FIrst Name" 
-        name='firstName'
-        value={formData.firstName}
-        onChange={handleChange}
-        helperText={errors.errorFirst}
-        error={Boolean(errors.errorFirst)}
+        type='text' id="firstName" label="FIrst Name" name='firstName' value={formData.firstName}
+        onChange={handleChange} helperText={errors.firstName} error={Boolean(errors.firstName)}
       />
       <CustomTextField 
-        type='text' 
-        id="lastName" 
-        label="Last Name" 
-        name='lastName'
-        value={formData.lastName}
-        onChange={handleChange}
-        helperText={errors.errorLast}
-        error={Boolean(errors.errorLast)}
+        type='text' id="lastName" label="Last Name" name='lastName' value={formData.lastName} 
+        onChange={handleChange} helperText={errors.lastName} error={Boolean(errors.lastName)}
       />
       <CustomTextField 
-        type='text' 
-        id="mobileNumber" 
-        label="Mobile Number" 
-        name='mobile'
-        value={formData.mobile}
-        onChange={handleChange}
-        helperText={errors.errorMobile}
-        error={Boolean(errors.errorMobile)}
+        type='text' id="mobileNumber" label="Mobile Number" name='mobile'value={formData.mobile}
+        onChange={handleChange} helperText={errors.mobile} error={Boolean(errors.mobile)}
       />
       <CustomTextField  
-        type='email' 
-        id="email" 
-        label="Email" 
-        name='email'
-        value={formData.email}
-        onChange={handleChange}
-        helperText={errors.errorEmail}
-        error={Boolean(errors.errorEmail)} 
+        type='email' id="email" label="Email" name='email' value={formData.email}
+        onChange={handleChange} helperText={errors.email} error={Boolean(errors.email)} 
       />
       <br></br>
       
       <h3>Gender</h3>
       <RadioGroup
-        // aria-labelledby="demo-radio-buttons-group-label"
-        // defaultValue="female"
-        name="gender"
-        value={formData.gender}
-        onChange={handleChange}
+        name="gender" value={formData.gender} onChange={handleChange}
       >
         <FormControlLabel value="female" control={<CustomRadioButton />} label="Female" />
         <FormControlLabel value="male" control={<CustomRadioButton />} label="Male" />
         <FormControlLabel value="other" control={<CustomRadioButton />} label="Other" />
       </RadioGroup>
  
-        
-       
-      <h3>Accept all terms and conditions <CustomCheckBox name="check" checked={formData.check} onChange={handleChange}/> </h3>
+      <FormControlLabel label="Accept all terms and conditions" control={<CustomCheckBox onChange={() => setFormData( {
+        ...formData,
+        check : !formData.check})}>  
+        </CustomCheckBox>}></FormControlLabel>
 
-      <CustomButton type='submit' onSubmit={handleSubmit} >Submit</CustomButton>
-
-      {/* <hr></hr>
-      <h3>User Details</h3>
-      <div>
-        <h4>Name : {firstName} {lastName}</h4>
-        <h4>Mobile Number : {mobile}</h4>
-        <h4>Email : {email}</h4>
-        <h4>Gender : {gender}</h4>
-        <h4>Accept all terms and conditions : {check}</h4>
-      </div> */}
+      <CustomButton type='submit' onClick={handleSubmit} >Submit</CustomButton>
     </div>
   )
 }

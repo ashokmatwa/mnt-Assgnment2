@@ -2,17 +2,37 @@ import logo from './logo.svg';
 import './App.css';
 import Form from './components/Form';
 import Parent from './components/Parent';
-import CustomTextField from './components/CustomTextField';
 import Form2 from './components/Form2';
+import LifeCycle from './components/LifeCycle';
+import API from './components/API';
+
+import FinalForm from './Assignment2/index';
+import APIS from './Assignment3';
+
+import {BrowserRouter, Route, Link,Switch, Routes} from 'react-router-dom';
+import HomePage from './HomePage';
 
 function App() {
   return (
     <div >
-      {/* <Form></Form> */}
-      
-      {/* <Parent></Parent> */}
+      <BrowserRouter>
+        <Routes>
+        <Route exact path='/' Component={HomePage}></Route>
+          <Route path='/assignment2' Component={FinalForm}></Route>
+          <Route path='/assignment3' Component={APIS}></Route>
+        </Routes>
+      </BrowserRouter>
 
-      <Form2></Form2>
+
+      {/* <Form></Form> */}
+      {/* // <Form2></Form2> */}
+
+      {/* <FinalForm></FinalForm> */}
+      {/* <APIS></APIS> */}
+
+      {/* <Parent></Parent> */}
+      {/* <LifeCycle></LifeCycle> */}
+      {/* <API></API> */}
     </div>
   );
 }
