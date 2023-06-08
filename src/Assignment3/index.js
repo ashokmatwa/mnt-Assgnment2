@@ -25,9 +25,18 @@ import MyTable from './components/table';
         }
         
     }
+
+    const postData = async() =>{
+        const article = { id: 11, name:"Avdut", email:"avdut@gmail.com", address:{street:"gali no 2", city:"Pune"},
+                         phone:"0291-123456789", company:{name:"Mindnerves"}};
+        const response = await axios.post("https://jsonplaceholder.typicode.com/users", article);
+        setData({id:response.data.id});
+    }
+
   return (
     <div>
         <MyTable data={data}></MyTable>
+        {/* <button onClick={postData}>Add Data</button> */}
     </div>
   )
 }

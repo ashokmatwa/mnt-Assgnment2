@@ -1,0 +1,14 @@
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    /* background-color: lightblue; */
+    background: linear-gradient(to bottom, lightblue, lightgreen); 
+    border: black 3px solid;
+    text-align: center;
+  }
+  
+  .submitted-container {
+    /* background-color: yellow; */
+    background: linear-gradient(to bottom, rgb(172, 90, 187), orange);
+  }

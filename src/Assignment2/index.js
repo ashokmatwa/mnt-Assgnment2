@@ -7,6 +7,7 @@ import CustomButton from '../Assignment2/components/CustomButton';
 import CustomCheckBox from '../Assignment2/components/CustomCheckBox';
 import CustomRadioButton from '../Assignment2/components/CustomRadioButton';
 import { FormControl, FormHelperText } from '@mui/material';
+import '../Assignment2/style.css';
 
 
 const FinalForm = () => {
@@ -105,7 +106,7 @@ const FinalForm = () => {
       }
 
   return (
-    <div style={{ maxWidth: '1000px', margin: '0 auto', padding: '20px' }}>
+    <div className="container">
         <h2>FINAL FORM : Please Enter Details</h2>
       <CustomTextField
         type='text' id="firstName" label="FIrst Name" name='firstName' value={formData.firstName}
@@ -127,8 +128,8 @@ const FinalForm = () => {
       
       <h3>Gender</h3>
       <RadioGroup
-        name="gender" value={formData.gender} onChange={handleChange} sx={{display:"flex", flexDirection:"row"}}
-      >
+        name="gender" value={formData.gender} onChange={handleChange} sx={{display:"flex", flexDirection:"row", justifyContent: "center", alignItems: "center"}}
+        >
         <FormControlLabel value="female" control={<CustomRadioButton />} label="Female" />
         <FormControlLabel value="male" control={<CustomRadioButton />} label="Male" />
         <FormControlLabel value="other" control={<CustomRadioButton />} label="Other" />
@@ -152,9 +153,9 @@ const FinalForm = () => {
 
       <CustomButton type='submit' onClick={handleSubmit} >Submit</CustomButton>
         {submitted && (
-        <div>
+        <div className="submitted-container">
           <hr />
-          <h2>User Details</h2>
+          <h2>Form Submitted Successfully</h2>
           <h3>Name: {formData.firstName} {formData.lastName}</h3>
           <h3>Mobile: {formData.mobile}</h3>
           <h3>Email: {formData.email}</h3>
@@ -162,8 +163,7 @@ const FinalForm = () => {
           <h3>Accepted all conditions : {formData.check ? 'Yes' : 'No'}</h3>
         </div>
         )}
-    </div>
-    
+      </div>
   )
 }
 export default FinalForm;
