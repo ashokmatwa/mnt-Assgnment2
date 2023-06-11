@@ -18,6 +18,7 @@ import CustomButton from './CustomButton';
 import CheckIcon from '@mui/icons-material/Check';
 import Snackbar from '@mui/material/Snackbar';
 import Alert from '@mui/material/Alert';
+import CustomTable from './CustomTable';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   border: '10px solid grey', // Add border styling
@@ -171,9 +172,22 @@ const MyTable = (props) => {
   // const slicedData = props.data.slice(startingIndex, endingIndex);
   const slicedData = userData.slice(startingIndex, endingIndex);
 
+  const content = ["ID","NAME","EMAIL","ADDRESS","PHONE","COMPANY","ACTION"];
   return (
     <>
-      <TableContainer component={Paper} sx={{ minWidth: 700, margin: '20px auto'}}>
+      <CustomTable 
+      content={content}
+      slicedData={slicedData}
+      handleOpenEdit={handleOpenEdit}
+      handleOpenDelete={handleOpenDelete}
+      userData={userData}
+      rowsPerPage={rowsPerPage}
+      currentPage={currentPage}
+      handleChangePage={handleChangePage}
+      handleChangeRowsPerPage={handleChangeRowsPerPage}
+      >
+      </CustomTable>
+      {/* <TableContainer component={Paper} sx={{ minWidth: 700, margin: '20px auto'}}>
         <StyledTable  >
           <TableHead>
             <TableRow>
@@ -207,9 +221,9 @@ const MyTable = (props) => {
             ))}
           </TableBody>
         </StyledTable>
-      </TableContainer>
+      </TableContainer> */}
       {/* <Pagination count={10} /> */}
-      <TablePagination
+      {/* <TablePagination
         rowsPerPageOptions={[3, 5, 10, 25, 50, 100]}
         component="div"
         count={userData.length}
@@ -217,7 +231,7 @@ const MyTable = (props) => {
         page={currentPage}
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
-      />
+      />  */}
       <CustomDialogBox open={openEdit} onClose={handleClose} title="Edit User" 
         content={<><CustomTextField type="text" id="name" label="Name" name="name" value={modifiedUser.name} onChange={handleChange}/>
                   <CustomTextField type="text" id="email" label="Email" name="email" value={modifiedUser.email} onChange={handleChange} />

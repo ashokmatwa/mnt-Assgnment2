@@ -1,38 +1,55 @@
 import React, { useState, useEffect } from 'react'
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, TablePagination, TextField, Grid} from '@mui/material';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, TablePagination, TextField, Grid, Button} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-import '../style.css'
-import Box from '@mui/material/Box';
-import Typography from '@mui/material/Typography';
-import Modal from '@mui/material/Modal';
 
-import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
-import CustomTextField from './CustomTextField';
-import Pagination from '@mui/material/Pagination';
-import CustomDialogBox from './CustomDialogBox';
-import CustomButton from './CustomButton';
-import CheckIcon from '@mui/icons-material/Check';
-import Snackbar from '@mui/material/Snackbar';
-import Alert from '@mui/material/Alert';
+const StyledTable = styled(Table)(({ theme }) => ({
+    border: '10px solid grey', // Add border styling
+  }));
+  
+  const StyledTableCell = styled(TableCell)(({ theme }) => ({
+    [`&.${tableCellClasses.head}`]: {
+      backgroundColor: "brown", 
+      color: theme.palette.common.white, // text color
+      border: '2px solid rgba(255, 255, 255, 0.12)', // Add border styling
+    },
+    [`&.${tableCellClasses.body}`]: {
+      fontSize: 14,
+      border: '2px solid rgba(0, 0, 0, 0.12)', // Add border styling
+    },
+  }));
+  
+  const StyledTableRow = styled(TableRow)(({ theme }) => ({
+    '&:nth-of-type(odd)': {
+      // backgroundColor: theme.palette.action.hover,
+      backgroundColor: "lightblue"
+    },
+  }));
 
-const CustomTable = () => {
+const CustomTable = (props) => {
+
+    const {content, slicedData, handleOpenEdit, handleOpenDelete, userData, rowsPerPage, currentPage, handleChangePage, handleChangeRowsPerPage} = props;
+
+
+    const check = () => {
+        console.log(slicedData);
+        console.log(userData);
+        console.log(content);
+    }
+
   return (
     <>
+    {/* <Button onClick={check}>CHECK</Button> */}
       <TableContainer component={Paper} sx={{ minWidth: 700, margin: '20px auto'}}>
         <StyledTable  >
           <TableHead>
             <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>NAME</StyledTableCell>
-              <StyledTableCell>EMAIL</StyledTableCell>
-              <StyledTableCell>ADDRESS</StyledTableCell>
-              <StyledTableCell>PHONE</StyledTableCell>
-              <StyledTableCell>COMPANY</StyledTableCell>
-              <StyledTableCell>ACTION</StyledTableCell>
+            {content.map((item) => (
+              <StyledTableCell key={item}>{item}</StyledTableCell>
+            ))}
             </TableRow>
           </TableHead>
           <TableBody> 
