@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import MyTable from './components/table';
+// import NewMyTable from './components/check';
 
 
  const APIS = () => {
@@ -36,6 +37,7 @@ import MyTable from './components/table';
   return (
     <div>
         <MyTable data={data}></MyTable>
+        {/* <NewMyTable data={data}></NewMyTable> */}
         {/* <button onClick={postData}>Add Data</button> */}
     </div>
   )

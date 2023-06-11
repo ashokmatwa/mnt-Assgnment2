@@ -9,3 +9,13 @@
   boxShadow: 24,
   p: 4,
 } */
+.MuiDialogTitle-root+.css-1jfddxb-MuiDialogContent-root {
+  align-items: center;
+  display: flex;
+  flex-wrap: wrap;
+  padding-top: 0;
+  justify-content: center;
+}
+.css-bdhsul-MuiTypography-root-MuiDialogTitle-root{
+  text-align: center;
+}

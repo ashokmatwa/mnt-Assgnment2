@@ -1,17 +1,23 @@
 import React, { useState, useEffect } from 'react'
-import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, TablePagination, TextField} from '@mui/material';
+import { Table, TableContainer, TableHead, TableRow, TableCell, TableBody, Paper, TablePagination, TextField, Grid} from '@mui/material';
 import { styled } from '@mui/material/styles';
 import { tableCellClasses } from '@mui/material/TableCell';
 import IconButton from '@mui/material/IconButton';
 import EditIcon from '@mui/icons-material/Edit';
 import DeleteIcon from '@mui/icons-material/Delete';
-
+import '../style.css'
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
 import Modal from '@mui/material/Modal';
 
 import { Dialog, DialogTitle, DialogContent, DialogActions, Button } from '@mui/material';
 import CustomTextField from './CustomTextField';
+import Pagination from '@mui/material/Pagination';
+import CustomDialogBox from './CustomDialogBox';
+import CustomButton from './CustomButton';
+import CheckIcon from '@mui/icons-material/Check';
+import Snackbar from '@mui/material/Snackbar';
+import Alert from '@mui/material/Alert';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   border: '10px solid grey', // Add border styling
@@ -35,18 +41,6 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
     backgroundColor: "lightblue"
   },
 }));
-
-const style = {
-  position: 'absolute',
-  top: '50%',
-  left: '50%',
-  transform: 'translate(-50%, -50%)',
-  width: 400,
-  bgcolor: 'background.paper',
-  border: '2px solid #000',
-  boxShadow: 24,
-  p: 4,
-};
 
 const MyTable = (props) => {
   //copy of fethecd data
@@ -86,7 +80,7 @@ const MyTable = (props) => {
   
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setModifiedUser({...modifiedUser, [name]: value,});
+    setModifiedUser({...modifiedUser, [name]: value});
   };
 
   const handleOpenEdit = (user) => {
@@ -108,14 +102,25 @@ const MyTable = (props) => {
     setSelectedUser(user);
     setOpenDelete(true);
   }
+
+  //for Snackbar
+  const [success, setSuccess] = useState(false);
+  const [failure, setFailure] = useState(false);
+
   const handleClose = () => {
     setOpenEdit(false); 
     setOpenDelete(false);
   }
+  const close = () => {
+    setOpenEdit(false); 
+    setOpenDelete(false);
+    setFailure(true);
+  }
 
   //modifying data
-  const handleEditUser = () => {
+  const handleSaveUser = () => {
     // selectedUser state variable
+    setFailure(false);
     console.log(selectedUser);
 
     const updatedUser = {
@@ -123,15 +128,13 @@ const MyTable = (props) => {
       name: modifiedUser.name,
       email: modifiedUser.email,
       address: {
-        ...selectedUser.address,
         street: modifiedUser.addressS,
         city: modifiedUser.addressC,
       },
       phone: modifiedUser.phone,
       company: {
-        ...selectedUser.company,
         name: modifiedUser.company,
-    },
+      },
     };
 
     const updatedData = userData.map((user) => {
@@ -144,16 +147,20 @@ const MyTable = (props) => {
     setUserData(updatedData);
 
     console.log("EDIT SAVED");
+    console.log(modifiedUser);
+    setSuccess(true);
     handleClose();
   };
 
   const handleDeleteUser = () => {
+    setFailure(false);
     console.log(selectedUser);
     if (selectedUser) {
       const updatedData = userData.filter((user) => user.id !== selectedUser.id);
       setUserData(updatedData);
     }
     console.log("DELETED");
+    setSuccess(true);
     handleClose();
   };
 
@@ -165,7 +172,7 @@ const MyTable = (props) => {
   const slicedData = userData.slice(startingIndex, endingIndex);
 
   return (
-    <div>
+    <>
       <TableContainer component={Paper} sx={{ minWidth: 700, margin: '20px auto'}}>
         <StyledTable  >
           <TableHead>
@@ -201,6 +208,7 @@ const MyTable = (props) => {
           </TableBody>
         </StyledTable>
       </TableContainer>
+      {/* <Pagination count={10} /> */}
       <TablePagination
         rowsPerPageOptions={[3, 5, 10, 25, 50, 100]}
         component="div"
@@ -210,38 +218,42 @@ const MyTable = (props) => {
         onPageChange={handleChangePage}
         onRowsPerPageChange={handleChangeRowsPerPage}
       />
-      <Modal open={openEdit} onClose={handleClose}>
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Edit the user
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            {/* DETAILS TO BE EDITED */}
-            <CustomTextField type="text" id="name" label="Name" name="name" value={modifiedUser.name} onChange={handleChange}/>
-            <CustomTextField type="text" id="email" label="Email" name="email" value={modifiedUser.email} onChange={handleChange} />
-            <CustomTextField type="text" id="addressS" label="Address Street" name="addressS" value={modifiedUser.addressS} onChange={handleChange} />
-            <CustomTextField type="text" id="addressC" label="Address City" name="addressC" value={modifiedUser.addressC} onChange={handleChange} />
-            <CustomTextField type="text" id="phone" label="Phone" name="phone" value={modifiedUser.phone} onChange={handleChange} />
-            <CustomTextField type="text" id="company" label="Company" name="company" value={modifiedUser.company} onChange={handleChange} />
-          </Typography>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleEditUser}>Save</Button>
-        </Box>
-      </Modal> 
+      <CustomDialogBox open={openEdit} onClose={handleClose} title="Edit User" 
+        content={<><CustomTextField type="text" id="name" label="Name" name="name" value={modifiedUser.name} onChange={handleChange}/>
+                  <CustomTextField type="text" id="email" label="Email" name="email" value={modifiedUser.email} onChange={handleChange} />
+                  <br/>
+                  <CustomTextField type="text" id="addressS" label="Address Street" name="addressS" value={modifiedUser.addressS} onChange={handleChange} />
+                  <CustomTextField type="text" id="addressC" label="Address City" name="addressC" value={modifiedUser.addressC} onChange={handleChange} />
+                  <br/>
+                  <CustomTextField type="text" id="phone" label="Phone" name="phone" value={modifiedUser.phone} onChange={handleChange} />
+                  <CustomTextField type="text" id="company" label="Company" name="company" value={modifiedUser.company} onChange={handleChange} />
+          </>}
+        actions={<><CustomButton type="submit" color="primary" onClick={close}>Cancel</CustomButton>
+                   <CustomButton type="submit" color="error" onClick={handleSaveUser}>Save</CustomButton></>}>
+        </CustomDialogBox>
+      
+      <CustomDialogBox open={openDelete} onClose={handleClose} title="Delete User"
+        content={<p>Are you sure you want to delete this user with id: {selectedUser.id}?</p>}
+        actions={<><CustomButton type="submit" color="primary" onClick={close}>Cancel</CustomButton>
+                   <CustomButton type="submit" color="error" onClick={handleDeleteUser}>Delete</CustomButton></>}>
+      </CustomDialogBox>
 
-      <Modal open={openDelete} onClose={handleClose}>
-        <Box sx={style}>
-          <Typography id="modal-modal-title" variant="h6" component="h2">
-            Delete User
-          </Typography>
-          <Typography id="modal-modal-description" sx={{ mt: 2 }}>
-            Are you sure you want to delete this user with id {selectedUser.id}?
-          </Typography>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleDeleteUser}>Delete</Button>
-        </Box>
-      </Modal>
-    </div>
+      {/* <CustomDialogBox open={success} onClose={() => setSuccess(false)} title="DONE" 
+        content={<IconButton color="success" aria-label="edit" ><CheckIcon /></IconButton>}>
+      </CustomDialogBox> */}
+
+      <Snackbar open={success} autoHideDuration={6000} onClose={() => setSuccess(false)}>
+        <Alert onClose={() => setSuccess(false)} severity="success" sx={{ width: '100%' }}>
+          This is a success message!
+        </Alert>
+      </Snackbar>
+
+      <Snackbar open={failure} autoHideDuration={6000} onClose={() => setFailure(false)}>
+        <Alert onClose={() => setFailure(false)} severity="error" sx={{ width: '100%' }}>
+          This is a failure message!
+        </Alert>
+      </Snackbar>
+    </>
   )
 }
 
