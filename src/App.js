@@ -11,29 +11,44 @@ import APIS from './Assignment3';
 
 import {BrowserRouter, Route, Link,Switch, Routes} from 'react-router-dom';
 import HomePage from './HomePage';
+import { Provider } from 'react-redux';
+import store from './Redux/Store';
+import Book from './Book';
 
 function App() {
   return (
-    <div >
+    // <Provider store={store}>
+      <div >
       <BrowserRouter>
         <Routes>
         <Route exact path='/' Component={HomePage}></Route>
           <Route path='/assignment2' Component={FinalForm}></Route>
           <Route path='/assignment3' Component={APIS}></Route>
+          <Route path='/book' Component={Book}></Route>
         </Routes>
       </BrowserRouter>
-
-
-      {/* <Form></Form> */}
-      {/* // <Form2></Form2> */}
-
-      {/* <FinalForm></FinalForm> */}
-      {/* <APIS></APIS> */}
-
-      {/* <Parent></Parent> */}
-      {/* <LifeCycle></LifeCycle> */}
-      {/* <API></API> */}
     </div>
+    // </Provider>
+    //   <div >
+    //   <BrowserRouter>
+    //     <Routes>
+    //     <Route exact path='/' Component={HomePage}></Route>
+    //       <Route path='/assignment2' Component={FinalForm}></Route>
+    //       <Route path='/assignment3' Component={APIS}></Route>
+    //     </Routes>
+    //   </BrowserRouter>
+
+
+    //   {/* <Form></Form> */}
+    //   {/* // <Form2></Form2> */}
+
+    //   {/* <FinalForm></FinalForm> */}
+    //   {/* <APIS></APIS> */}
+
+    //   {/* <Parent></Parent> */}
+    //   {/* <LifeCycle></LifeCycle> */}
+    //   {/* <API></API> */}
+    // </div>
   );
 }
 

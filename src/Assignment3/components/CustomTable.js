@@ -31,11 +31,10 @@ const StyledTable = styled(Table)(({ theme }) => ({
 
 const CustomTable = (props) => {
 
-    const {content, slicedData, handleOpenEdit, handleOpenDelete, userData, rowsPerPage, currentPage, handleChangePage, handleChangeRowsPerPage} = props;
+    const {content, children, userData, rowsPerPage, currentPage, handleChangePage, handleChangeRowsPerPage} = props;
 
 
     const check = () => {
-        console.log(slicedData);
         console.log(userData);
         console.log(content);
     }
@@ -52,29 +51,11 @@ const CustomTable = (props) => {
             ))}
             </TableRow>
           </TableHead>
-          <TableBody> 
-            {slicedData.map((user) => (
-              <StyledTableRow  key={user.id}>
-                <StyledTableCell>{user.id}</StyledTableCell>
-                <StyledTableCell>{user.name}</StyledTableCell>
-                <StyledTableCell>{user.email}</StyledTableCell>
-                <StyledTableCell>Street : {user.address.street}, City : {user.address.city}</StyledTableCell>
-                <StyledTableCell>{user.phone}</StyledTableCell>
-                <StyledTableCell>{user.company.name}</StyledTableCell>
-                <StyledTableCell>
-                  <IconButton color="primary" aria-label="edit" onClick={() => handleOpenEdit(user)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton color="secondary" aria-label="delete" onClick={() => handleOpenDelete(user)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </StyledTableCell>
-              </StyledTableRow >
-            ))}
-          </TableBody>
+          <TableBody>
+            {children}
+          </TableBody> 
         </StyledTable>
       </TableContainer>
-      {/* <Pagination count={10} /> */}
       <TablePagination
         rowsPerPageOptions={[3, 5, 10, 25, 50, 100]}
         component="div"

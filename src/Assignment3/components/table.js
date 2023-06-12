@@ -177,15 +177,31 @@ const MyTable = (props) => {
     <>
       <CustomTable 
       content={content}
-      slicedData={slicedData}
-      handleOpenEdit={handleOpenEdit}
-      handleOpenDelete={handleOpenDelete}
       userData={userData}
       rowsPerPage={rowsPerPage}
       currentPage={currentPage}
       handleChangePage={handleChangePage}
       handleChangeRowsPerPage={handleChangeRowsPerPage}
       >
+        {slicedData.map((user) => (
+        <StyledTableRow  key={user.id}>
+          <StyledTableCell>{user.id}</StyledTableCell>
+          <StyledTableCell>{user.name}</StyledTableCell>
+          <StyledTableCell>{user.email}</StyledTableCell>
+          <StyledTableCell>Street : {user.address.street}, City : {user.address.city}</StyledTableCell>
+          <StyledTableCell>{user.phone}</StyledTableCell>
+          <StyledTableCell>{user.company.name}</StyledTableCell>
+          <StyledTableCell>
+            <IconButton color="primary" aria-label="edit" onClick={() => handleOpenEdit(user)}>
+              <EditIcon />
+            </IconButton>
+            <IconButton color="secondary" aria-label="delete" onClick={() => handleOpenDelete(user)}>
+              <DeleteIcon />
+            </IconButton>
+          </StyledTableCell>
+        </StyledTableRow >
+      ))}
+
       </CustomTable>
       {/* <TableContainer component={Paper} sx={{ minWidth: 700, margin: '20px auto'}}>
         <StyledTable  >
