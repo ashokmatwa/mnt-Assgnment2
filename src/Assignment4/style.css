@@ -1,0 +1,25 @@
+.container1 {
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 20px;
+    /* background-color: lightblue; */
+    background: linear-gradient(to bottom, rgb(215, 230, 173), rgb(191, 144, 238)); 
+    border: black 3px solid;
+    text-align: center;
+  }
+  
+  .submitted-container1 {
+    /* background-color: yellow; */
+    background: linear-gradient(to bottom, rgb(172, 90, 187), orange);
+  }
+
+  /* .MuiDialogTitle-root+.css-1jfddxb-MuiDialogContent-root {
+    align-items: center;
+    display: flex;
+    flex-wrap: wrap;
+    padding-top: 0;
+    justify-content: center;
+  }
+  .css-bdhsul-MuiTypography-root-MuiDialogTitle-root{
+    text-align: center;
+  } */

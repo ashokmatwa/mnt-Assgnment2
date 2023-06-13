@@ -203,51 +203,7 @@ const MyTable = (props) => {
       ))}
 
       </CustomTable>
-      {/* <TableContainer component={Paper} sx={{ minWidth: 700, margin: '20px auto'}}>
-        <StyledTable  >
-          <TableHead>
-            <TableRow>
-              <StyledTableCell>ID</StyledTableCell>
-              <StyledTableCell>NAME</StyledTableCell>
-              <StyledTableCell>EMAIL</StyledTableCell>
-              <StyledTableCell>ADDRESS</StyledTableCell>
-              <StyledTableCell>PHONE</StyledTableCell>
-              <StyledTableCell>COMPANY</StyledTableCell>
-              <StyledTableCell>ACTION</StyledTableCell>
-            </TableRow>
-          </TableHead>
-          <TableBody> 
-            {slicedData.map((user) => (
-              <StyledTableRow  key={user.id}>
-                <StyledTableCell>{user.id}</StyledTableCell>
-                <StyledTableCell>{user.name}</StyledTableCell>
-                <StyledTableCell>{user.email}</StyledTableCell>
-                <StyledTableCell>Street : {user.address.street}, City : {user.address.city}</StyledTableCell>
-                <StyledTableCell>{user.phone}</StyledTableCell>
-                <StyledTableCell>{user.company.name}</StyledTableCell>
-                <StyledTableCell>
-                  <IconButton color="primary" aria-label="edit" onClick={() => handleOpenEdit(user)}>
-                    <EditIcon />
-                  </IconButton>
-                  <IconButton color="secondary" aria-label="delete" onClick={() => handleOpenDelete(user)}>
-                    <DeleteIcon />
-                  </IconButton>
-                </StyledTableCell>
-              </StyledTableRow >
-            ))}
-          </TableBody>
-        </StyledTable>
-      </TableContainer> */}
-      {/* <Pagination count={10} /> */}
-      {/* <TablePagination
-        rowsPerPageOptions={[3, 5, 10, 25, 50, 100]}
-        component="div"
-        count={userData.length}
-        rowsPerPage={rowsPerPage}
-        page={currentPage}
-        onPageChange={handleChangePage}
-        onRowsPerPageChange={handleChangeRowsPerPage}
-      />  */}
+      
       <CustomDialogBox open={openEdit} onClose={handleClose} title="Edit User" 
         content={<><CustomTextField type="text" id="name" label="Name" name="name" value={modifiedUser.name} onChange={handleChange}/>
                   <CustomTextField type="text" id="email" label="Email" name="email" value={modifiedUser.email} onChange={handleChange} />

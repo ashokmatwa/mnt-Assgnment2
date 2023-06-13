@@ -1,0 +1,12 @@
+{
+    "users":[
+        {
+            "id":"1",
+            "firstName":"Ashok",
+            "lastName":"Matwa",
+            "phone":"1234567890",
+            "email":"ashok@gmail.com",
+            "gender":"Male"
+        }
+    ]
+}
