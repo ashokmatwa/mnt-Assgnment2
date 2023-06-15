@@ -23,7 +23,7 @@ import CustomForm from './CustomForm';
 import { Link } from 'react-router-dom';
 import {useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { updateUser, deleteUser } from '../Redux/reducers/formSlice';
+import { updateUser, deleteUser, deleteTable } from '../Redux/reducers/formSlice';
 
 const StyledTable = styled(Table)(({ theme }) => ({
   border: '10px solid grey', // Add border styling
@@ -86,10 +86,50 @@ const UserTable = () => {
      email:"",
      gender:""
    });
+
+   const [errors, setErrors] = useState({
+    firstName: '',
+    lastName: '',
+    mobile: '',
+    email: '',
+    gender: ''
+  });
    
    const handleChange = (e) => {
-     const { name, value } = e.target;
-     setModifiedUser({...modifiedUser, [name]: value});
+    //  const { name, value } = e.target;
+    //  setModifiedUser({...modifiedUser, [name]: value});
+    const name = e.target.name;
+        const newValue = e.target.value;
+        let errorVariable=""; 
+        
+        if(name==="firstName" || name==="lastName"){
+            let regex = /^[a-zA-Z]+$/;
+            if(!regex.test(newValue)){
+                errorVariable = "Only Characters Allowed";
+            }
+        }
+        if(name === "mobile"){
+            let regex = /^[0-9]+$/;
+            if(!regex.test(newValue) || newValue.length !== 10){
+                errorVariable="Only Numbers Allowed";
+            }
+        }
+        if(name === "email"){
+            let regex = /^[a-zA-Z0-9]+@(?:[a-zA-Z0-9]+\.)+[A-Za-z]+$/;
+            if(!regex.test(newValue)){
+                errorVariable="format abc@gmail.com";
+            }
+        }
+
+        setModifiedUser( {
+          ...modifiedUser,
+          [name]: newValue,
+        });
+
+        setErrors({
+          ...errors,
+          [name]: errorVariable
+        });
    };
  
    const handleOpenEdit = (user) => {
@@ -126,36 +166,68 @@ const UserTable = () => {
      setFailure(true);
    }
  
+   let check = false;
    //modifying data
    const handleSaveUser = () => {
      // selectedUser state variable
      setFailure(false);
      console.log(selectedUser);
+
+     const { firstName, lastName, mobile, email, gender} = selectedUser;
+        // console.log(formData);console.log(errors);
+
+        if(firstName === "" || errors.firstName !== ''){
+            setErrors({...errors, firstName : "Required" })
+            return;
+        }
+        if(lastName === "" || errors.lastName !== ''){
+            setErrors({...errors, lastName : "Required"})
+            return;
+        }
+        if(mobile === "" || errors.mobile !== ''){
+            setErrors({...errors, mobile : "Required"})
+            return;
+        }
+        if(email === "" || errors.email !== ''){
+            setErrors({...errors, email : "Required"})
+            return;
+        }
+        if(gender === "" || errors.gender !== ''){
+            setErrors({...errors, gender : "Required"})
+            return;
+        }
+
+        if(!errors.firstName && !errors.lastName && !errors.mobile && !errors.email && !errors.gender){
+            check=true;
+        }
  
-     const updatedUser = {
-       ...selectedUser,
-       firstName: modifiedUser.firstName,
-       lastName: modifiedUser.lastName,
-       email: modifiedUser.email,
-       mobile: modifiedUser.mobile,
-       gender: modifiedUser.gender
-     };
- 
-     const updatedData = userData.map((user) => {
-       if (user.id === selectedUser.id) {
-         return updatedUser;
-       }
-       return user;
-     });
-   
-    //  setUserData(updatedData);
-    // dispatch(updateUser(user));
-    dispatch(updateUser(updatedUser));
- 
-     console.log("EDIT SAVED and DISPATCHED");
-     console.log(modifiedUser);
-     setSuccess(true);
-     handleClose();
+        if(check){
+          const updatedUser = {
+            ...selectedUser,
+            firstName: modifiedUser.firstName,
+            lastName: modifiedUser.lastName,
+            email: modifiedUser.email,
+            mobile: modifiedUser.mobile,
+            gender: modifiedUser.gender
+          };
+      
+          const updatedData = userData.map((user) => {
+            if (user.id === selectedUser.id) {
+              return updatedUser;
+            }
+            return user;
+          });
+        
+         //  setUserData(updatedData);
+         // dispatch(updateUser(user));
+         dispatch(updateUser(updatedUser));
+      
+          console.log("EDIT SAVED and DISPATCHED");
+          console.log(modifiedUser);
+          setSuccess(true);
+          handleClose();
+        }
+     
    };
  
    const handleDeleteUser = () => {
@@ -185,7 +257,10 @@ const UserTable = () => {
     setOpenEditForm(true);
     navigate('/editUser')
    }
-//    let id=1;
+
+   const emptyTable = () => {
+    dispatch(deleteTable());
+   }
   return (
     <>
       <CustomTable 
@@ -222,15 +297,22 @@ const UserTable = () => {
         <CustomButton type="submit" color="primary">Add User</CustomButton>
       </a> */}
       <CustomButton type="submit" color="primary" onClick={handleClick}>Add User</CustomButton>
+      <br></br>
+      <CustomButton type="submit" color="primary" onClick={emptyTable}>Delete Table</CustomButton>
     
       
       
       <CustomDialogBox open={openEdit} onClose={handleClose} title="Edit User" 
-        content={<><CustomTextField type="text" id="firstName" label="First Name" name="firstName" value={modifiedUser.firstName} onChange={handleChange}/>
-                  <CustomTextField type="text" id="lastName" label="Last Name" name="lastName" value={modifiedUser.lastName} onChange={handleChange}/>
-                  <CustomTextField type="text" id="mobile" label="Phone" name="mobile" value={modifiedUser.mobile} onChange={handleChange} />
-                  <CustomTextField type="text" id="email" label="Email" name="email" value={modifiedUser.email} onChange={handleChange} />
-                  <CustomTextField type="text" id="gender" label="Gender" name="gender" value={modifiedUser.gender} onChange={handleChange} />
+        content={<><CustomTextField type="text" id="firstName" label="First Name" name="firstName" value={modifiedUser.firstName} onChange={handleChange}
+        helperText={errors.firstName} error={Boolean(errors.firstName)}/>
+                  <CustomTextField type="text" id="lastName" label="Last Name" name="lastName" value={modifiedUser.lastName} onChange={handleChange}
+        helperText={errors.lastName} error={Boolean(errors.lastName)}          />
+                  <CustomTextField type="text" id="mobile" label="Phone" name="mobile" value={modifiedUser.mobile} onChange={handleChange} 
+        helperText={errors.mobile} error={Boolean(errors.mobile)}          />
+                  <CustomTextField type="text" id="email" label="Email" name="email" value={modifiedUser.email} onChange={handleChange} 
+        helperText={errors.email} error={Boolean(errors.email)}          />
+                  <CustomTextField type="text" id="gender" label="Gender" name="gender" value={modifiedUser.gender} onChange={handleChange} 
+        helperText={errors.gender} error={Boolean(errors.gender)}          />
                   <br/>
           </>}
         actions={<><CustomButton type="submit" color="primary" onClick={close}>Cancel</CustomButton>

@@ -22,11 +22,12 @@ const userSlice = createSlice({
     deleteUser: (state, action) => {
       const userId = action.payload;
       state.formData = state.formData.filter((user) => user.id !== userId);
-      // const userEmail = action.payload;
-      // state.formData = state.formData.filter((user) => user.email !== userEmail);
     },
-  },
+    deleteTable: (state, action) => {
+      state.formData = [];
+    },
+  }
 });
 
-export const { setUserData, updateUser, deleteUser } = userSlice.actions;
+export const { setUserData, updateUser, deleteUser, deleteTable } = userSlice.actions;
 export default userSlice.reducer;

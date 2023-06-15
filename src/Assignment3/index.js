@@ -1,7 +1,11 @@
 import React, { useEffect, useState } from 'react'
 import axios from "axios";
 import MyTable from './components/table';
+import ApiReduxTable from './apiReduxTable';
 // import NewMyTable from './components/check';
+import { useDispatch, useSelector } from 'react-redux';
+import { fetchApi } from '../Redux/reducers/apiSlice';
+import CustomButton from '../Assignment3/components/CustomButton';
 
 
  const APIS = () => {
@@ -34,9 +38,27 @@ import MyTable from './components/table';
         setData({id:response.data.id});
     }
 
+    const dispatch = useDispatch();
+    // const newapiData = useSelector((state) => state.api.apiData);
+    const state = useSelector((state) => state);
+
+    const handleClick = () => {
+        dispatch(fetchApi());
+        console.log(state.api.apiData)
+    }
+
+    if(state.api.isLoading){
+        return <h1>LOADING...</h1>
+    }
+    console.log(state.api.apiData)
   return (
     <div>
-        <MyTable data={data}></MyTable>
+        {/* <MyTable data={data}></MyTable> */}
+
+        <br></br>
+        <CustomButton type='submit' color='primary' onClick={handleClick}>Fetch API</CustomButton>
+        { state.api.apiData && <ApiReduxTable data={state.api.apiData}></ApiReduxTable> }
+
         {/* <NewMyTable data={data}></NewMyTable> */}
         {/* <button onClick={postData}>Add Data</button> */}
     </div>
